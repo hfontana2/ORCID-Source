@@ -38,7 +38,7 @@ public class MigrateEmailFrequencyData {
         try {
             parser.parseArgument(args);
             //If it is null or too big
-            if(element.batchSize == null || element.batchSize > 1000000) {
+            if(element.batchSize == null) {
                 element.batchSize = 50000;
             }            
         } catch (CmdLineException e) {

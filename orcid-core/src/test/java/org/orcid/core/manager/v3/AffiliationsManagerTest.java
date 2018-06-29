@@ -615,44 +615,27 @@ public class AffiliationsManagerTest extends BaseTest {
         Map<AffiliationType, List<AffiliationGroup<AffiliationSummary>>> map = affiliationsManager.getGroupedAffiliations(orcid, false);
         assertNotNull(map);
         
-        for(Affiliation aff : affiliationsManager.getAffiliations(orcid)) {
-            System.out.println("--------------------------------------------------------------------------------------------****");
-            System.out.println("--------------------------------------------------------------------------------------------****");
-            System.out.println("--------------------------------------------------------------------------------------------****");            
-            for (ExternalID extId : aff.getExternalIdentifiers().getExternalIdentifier()) {
-                System.out.println(aff.getPutCode() + " -----> " + extId.getGroupId() + " " + extId.getType() + " " + extId.getValue());
-            }
-            System.out.println("--------------------------------------------------------------------------------------------****");
-            System.out.println("--------------------------------------------------------------------------------------------****");
-            System.out.println("--------------------------------------------------------------------------------------------****");
-        }
-        
         // Check distinctions
         assertTrue(map.containsKey(AffiliationType.DISTINCTION));
         List<AffiliationGroup<AffiliationSummary>> groups = map.get(AffiliationType.DISTINCTION);
         assertNotNull(groups);
-        assertEquals(4, groups.size());
         
         boolean found1 = false, found2 = false, found3 = false, found4 = false;
         for(AffiliationGroup<AffiliationSummary> g : groups) {
             AffiliationSummary element0 = g.getActivities().get(0);
-            Long putCode = element0.getPutCode();
-            if(putCode.equals(30L)) {
-                assertEquals(2, g.getActivities().size());
-                assertEquals(Long.valueOf(27), g.getActivities().get(1).getPutCode());
-                found1 = true;
-            } else if(putCode.equals(28L)) {
-                assertEquals(1, g.getActivities().size());
-                found2 = true;
-            } else if(putCode.equals(29L)) {
-                assertEquals(1, g.getActivities().size());
-                found3 = true;
-            } else if(putCode.equals(31L)) {
-                assertEquals(1, g.getActivities().size());
-                found4 = true;
-            } else {
-                fail("Invalid put code found:  " + putCode);
-            }
+            
+            
+                System.out.println("--------------------------------------------------------------------------------------------****");
+                System.out.println("--------------------------------------------------------------------------------------------****");
+                System.out.println("--------------------------------------------------------------------------------------------****");            
+                for (ExternalID extId : g.getIdentifiers().getExternalIdentifier()) {
+                    System.out.println(element0.getPutCode() + " -----> " + extId.getGroupId() + " " + extId.getType() + " " + extId.getValue());
+                }
+                System.out.println("--------------------------------------------------------------------------------------------****");
+                System.out.println("--------------------------------------------------------------------------------------------****");
+                System.out.println("--------------------------------------------------------------------------------------------****");
+            
+            
         }
         
         assertTrue(found1);

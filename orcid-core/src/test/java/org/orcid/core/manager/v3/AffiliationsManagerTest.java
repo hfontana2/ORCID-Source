@@ -615,11 +615,23 @@ public class AffiliationsManagerTest extends BaseTest {
         Map<AffiliationType, List<AffiliationGroup<AffiliationSummary>>> map = affiliationsManager.getGroupedAffiliations(orcid, false);
         assertNotNull(map);
         
+        for(Affiliation aff : affiliationsManager.getAffiliations(orcid)) {
+            System.out.println("--------------------------------------------------------------------------------------------****");
+            System.out.println("--------------------------------------------------------------------------------------------****");
+            System.out.println("--------------------------------------------------------------------------------------------****");            
+            for (ExternalID extId : aff.getExternalIdentifiers().getExternalIdentifier()) {
+                System.out.println(aff.getPutCode() + " -----> " + extId.getGroupId() + " " + extId.getType() + " " + extId.getValue());
+            }
+            System.out.println("--------------------------------------------------------------------------------------------****");
+            System.out.println("--------------------------------------------------------------------------------------------****");
+            System.out.println("--------------------------------------------------------------------------------------------****");
+        }
+        
         // Check distinctions
         assertTrue(map.containsKey(AffiliationType.DISTINCTION));
         List<AffiliationGroup<AffiliationSummary>> groups = map.get(AffiliationType.DISTINCTION);
         assertNotNull(groups);
-        assertEquals(map.toString(), 4, groups.size());
+        assertEquals(4, groups.size());
         
         boolean found1 = false, found2 = false, found3 = false, found4 = false;
         for(AffiliationGroup<AffiliationSummary> g : groups) {

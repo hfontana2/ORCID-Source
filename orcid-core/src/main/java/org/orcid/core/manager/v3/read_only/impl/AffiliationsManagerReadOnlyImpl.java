@@ -357,6 +357,14 @@ public class AffiliationsManagerReadOnlyImpl extends ManagerReadOnlyBaseImpl imp
     @Override
     public <T extends AffiliationSummary> Map<AffiliationType, List<AffiliationGroup<T>>> getGroupedAffiliations(String orcid, boolean justPublic) {
         List<OrgAffiliationRelationEntity> affiliations = orgAffiliationRelationEntityCacheManager.getAffiliationEntities(orcid);
+        
+        System.out.println("------------------------------------------------------------------");
+        for(OrgAffiliationRelationEntity e : affiliations) {
+            System.out.println(e.getId() + " -> " + e.getExternalIdentifiersJson());
+        }
+        System.out.println("------------------------------------------------------------------");
+        
+        
         ActivitiesGroupGenerator distinctionsGroupGenerator = new ActivitiesGroupGenerator();
         ActivitiesGroupGenerator educationsGroupGenerator = new ActivitiesGroupGenerator();
         ActivitiesGroupGenerator employmentsGroupGenerator = new ActivitiesGroupGenerator();

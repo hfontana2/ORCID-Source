@@ -49,7 +49,9 @@ import org.orcid.jaxb.model.v3.rc1.record.summary.InvitedPositionSummary;
 import org.orcid.jaxb.model.v3.rc1.record.summary.MembershipSummary;
 import org.orcid.jaxb.model.v3.rc1.record.summary.QualificationSummary;
 import org.orcid.jaxb.model.v3.rc1.record.summary.ServiceSummary;
+import org.orcid.persistence.dao.OrgAffiliationRelationDao;
 import org.orcid.persistence.jpa.entities.ClientDetailsEntity;
+import org.orcid.persistence.jpa.entities.OrgAffiliationRelationEntity;
 import org.orcid.persistence.jpa.entities.SourceEntity;
 import org.orcid.test.TargetProxyHelper;
 
@@ -66,6 +68,9 @@ public class AffiliationsManagerTest extends BaseTest {
     
     @Resource(name = "affiliationsManagerV3")
     private AffiliationsManager affiliationsManager;
+    
+    @Resource(name = "orgAffiliationRelationDaoReadOnly")
+    private OrgAffiliationRelationDao orgAffiliationRelationDao;
     
     @BeforeClass
     public static void initDBUnitData() throws Exception {
@@ -614,7 +619,15 @@ public class AffiliationsManagerTest extends BaseTest {
         String orcid = "0000-0000-0000-0003";
         Map<AffiliationType, List<AffiliationGroup<AffiliationSummary>>> map = affiliationsManager.getGroupedAffiliations(orcid, false);
         assertNotNull(map);
-        
+        System.out.println("--------------------------------------------------------------------------------------------****");
+        System.out.println("Entities! --------------------------------------------------------------------------------------****");
+        System.out.println("--------------------------------------------------------------------------------------------****");            
+        for(OrgAffiliationRelationEntity e : orgAffiliationRelationDao.getByUser(orcid)) {
+            System.out.println(e.getId() + " -----> " + e.getExternalIdentifiersJson());                    
+        }
+        System.out.println("--------------------------------------------------------------------------------------------****");
+        System.out.println("--------------------------------------------------------------------------------------------****");
+        System.out.println("--------------------------------------------------------------------------------------------****");
         // Check distinctions
         assertTrue(map.containsKey(AffiliationType.DISTINCTION));
         List<AffiliationGroup<AffiliationSummary>> groups = map.get(AffiliationType.DISTINCTION);
